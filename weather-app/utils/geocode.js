@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ quiet: true });
 const request = require("request");
 
 const mapboxToken = process.env.MAPBOX_TOKEN;
