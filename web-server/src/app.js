@@ -4,15 +4,24 @@ const express = require("express");
 
 const app = express();
 
+app.set("view engine", "hbs");
+
 const publicDirectoryPath = path.join(__dirname, "../public");
 
 // You can now access the help and about pages by going to localhost:3000/help.html and localhost:3000/about.html
 
 app.use(express.static(publicDirectoryPath));
 
-// This will not run as we declared above the static directory. It will only show the first match, so this will be ignored.
 app.get("", (req, res) => {
-  res.send("<h1>Weather</h1>!");
+  res.render("index", { title: "Weather App", name: "Jenny Manriquez" });
+});
+
+app.get("/about", (req, res) => {
+  res.render("about", { title: "About ", name: "Jenny Manriquez" });
+});
+
+app.get("/help", (req, res) => {
+  res.render("help", { title: "Help", helpText: "This is the help text." });
 });
 
 app.get("/weather", (req, res) => {
