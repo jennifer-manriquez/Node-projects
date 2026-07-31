@@ -1,15 +1,21 @@
 const path = require("path");
 const express = require("express");
 // express is a function
+const hbs = require("hbs");
 
 const app = express();
 
-app.set("view engine", "hbs");
-
+// Define paths for Express config
 const publicDirectoryPath = path.join(__dirname, "../public");
+const viewsPath = path.join(__dirname, "../templates/views");
+const partialsPath = path.join(__dirname, "../templates/partials");
 
-// You can now access the help and about pages by going to localhost:3000/help.html and localhost:3000/about.html
+// Setup handlebars engine and views location
+app.set("view engine", "hbs");
+app.set("views", viewsPath); // Set the views path
+hbs.registerPartials(partialsPath);
 
+// Setup static directory to serve
 app.use(express.static(publicDirectoryPath));
 
 app.get("", (req, res) => {
@@ -21,7 +27,11 @@ app.get("/about", (req, res) => {
 });
 
 app.get("/help", (req, res) => {
-  res.render("help", { title: "Help", helpText: "This is the help text." });
+  res.render("help", {
+    title: "Help",
+    helpText: "This is the help text.",
+    name: "Jennifer Manríquez",
+  });
 });
 
 app.get("/weather", (req, res) => {
