@@ -19,7 +19,7 @@ hbs.registerPartials(partialsPath);
 app.use(express.static(publicDirectoryPath));
 
 app.get("", (req, res) => {
-  res.render("index", { title: "Weather App", name: "Jenny Manriquez" });
+  res.render("index", { title: "Weather", name: "Jenny Manriquez" });
 });
 
 app.get("/about", (req, res) => {
@@ -35,12 +35,27 @@ app.get("/help", (req, res) => {
 });
 
 app.get("/weather", (req, res) => {
-  res.send({
+  res.render("404Page", {
     forecast: "It is snowing",
     location: "Philadelphia",
   });
 });
 
+// Specific to help
+app.get("/help/{*splat}", (req, res) => {
+  res.render("404Page", {
+    notFoundMessage: "Help article not found",
+  });
+});
+
+// Error handling
+app.get("/{*splat}", (req, res) => {
+  res.send({
+    notFoundMessage: "Page not foung",
+  });
+});
+
+// Start the server
 app.listen(3000, () => {
   console.log("Server is up on port 3000.");
 });
