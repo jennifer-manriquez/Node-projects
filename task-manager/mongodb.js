@@ -16,7 +16,7 @@ async function connectDB() {
     console.log("Successfully connected to MongoDB!");
     const db = client.db(databaseName);
     // Call functions to perform database operations here
-    updateManyTasks(db)
+    deleteUsersByAge(db);
   } catch (error) {
     console.error("Connection failed!", error);
     process.exit(1); // Stop the server if the database fails
@@ -43,7 +43,7 @@ const insertDocument = async (db) => {
 
 const insertManyDocuments = async (db) => {
   try {
-      const docs = [{name: "Sam", age: 29}, {name: "John", age: 27}]
+      const docs = [{name: "Rick", age: 29}, {name: "Emma", age: 27}]
       const result = await db.collection("users").insertMany(docs);
       console.log("result", result)
       console.log("docs", docs);
@@ -160,5 +160,24 @@ const handleDataBaseError = (error) => {
     console.error("Error: A record with this unique key already exists.")
   } else {
     console.log("Unable to fetch");
+  }
+}
+
+// ---------------------------------------------------
+// DELETE EXAMPLES
+
+const deleteUserByAge =  async (db) => {
+  try {
+    await db.collection("users").deleteOne({age: 29})
+  } catch (error) {
+    handleDataBaseError(error)
+  }
+}
+
+const deleteUsersByAge =  async (db) => {
+  try {
+    await db.collection("users").deleteMany({age: 29})
+  } catch (error) {
+    handleDataBaseError(error)
   }
 }
